@@ -27,7 +27,7 @@ namespace ControleDeContatos.Repositorio
 
         public UsuarioModel buscarPorLorgin(string login)
         {
-            return _bancoContext.Usuarios.FirstOrDefault(x => x.Id == id);
+            return _bancoContext.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
         }
 
 

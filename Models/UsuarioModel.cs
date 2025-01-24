@@ -36,5 +36,10 @@ namespace ControleDeContatos.Models
         
         
         public DateTime? DataAtualizacao { get; set; }
+
+        public bool SenhaValida(string senha)
+        {
+            return Senha == senha;
+        }
     }
 }
