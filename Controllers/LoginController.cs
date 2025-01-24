@@ -26,10 +26,7 @@ namespace ControleDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
-                    UsuarioModel usuario =  _usuarioRepositorio.buscarPorLorgin(loginModel.Login);
-
-
+                    UsuarioModel usuario = _usuarioRepositorio.buscarPorLorgin(loginModel.Login);
 
                     if (usuario != null)
                     {
@@ -37,13 +34,11 @@ namespace ControleDeContatos.Controllers
                         {
                             return RedirectToAction("Index", "Home");
                         }
-                        else
-                        {
-                            TempData["MensagemErro"] = $"A senha do usuário é inválida. Por Favor, tente novamente";
-                        }
-                       
+
+                        TempData["MensagemErro"] = $"Senha do usuário é inválida, tente novamente.";
                     }
-                    TempData["MensagemErro"] = $"Usuário e/ou senha inválido(s). Por Favor, tente novamente";
+
+                    TempData["MensagemErro"] = $"Usuário e/ou senha inválido(s). Por favor, tente novamente.";
                 }
 
                 return View("Index");
