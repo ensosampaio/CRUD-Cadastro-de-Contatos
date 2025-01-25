@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using ControleDeContatos.Data;
 using ControleDeContatos.Repositorio;
+using Microsoft.AspNetCore.Http;
+using ControleDeContatos.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +14,18 @@ builder.Services.AddDbContext<BancoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
 // Add scoped repository
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<ISessao, Sessao>();
+
+builder.Services.AddSession(o =>
+{
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
+});
+
+
 
 // Add MVC controllers with views
 builder.Services.AddControllersWithViews();
@@ -43,6 +55,7 @@ app.UseRouting();
 // Use Authentication and Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 // Configure route mapping
 app.MapControllerRoute(
